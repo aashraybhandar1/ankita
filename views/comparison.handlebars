@@ -1,0 +1,79 @@
+<p id="heading"> Create a New Account</p>
+		
+		<form action="/compare" method="post">
+			Industry:<br>
+			<select name="industry">
+  				<option value='volvo'>Volvo</option>
+ 				<option value="saab">Saab</option>
+  				<option value="mercedes">Mercedes</option>
+  				<option value="audi">Audi</option>
+			</select>
+			Select Ratio:
+			<select name="ratio">
+  				<option value="ratio1">ratio1</option>
+ 				<option value="ratio2">ratio2</option>
+  				<option value="ratio3">ratio3</option>
+  				<option value="ratio4">ratio4</option>
+			</select><br>
+			Company:<br>
+			<input type="text" name="typeahead" id="ajax" placeholder="Type your Query">
+			<input type="submit" value="Submit" >
+			<div id="testing"></div>
+			<script>
+				/*//console.log("Hello");
+				function get_company(){
+				//console.log("Hello");
+				var company_name=$('#ajax2').val();
+				console.log(company_name);
+				var data={};
+				data.company_name=company_name;
+				$.ajax({
+					type:'POST',
+					data:JSON.stringfy(data),
+					//data:{'company_name':company_name},
+					//data:company_name,
+					contentType: 'application/json',
+        			url: 'http://localhost:3000/dummy',
+        			success: function(data) {
+                            //console.log('success');
+                            //console.log(JSON.stringify(data));
+                            console.log(data);
+                            process_result(data);
+                        }
+					});
+				}				
+				function process_result(data){
+				$('#testing').html(data);
+				}*/
+				$(function(){
+ 					$('#ajax').on('keyup', function(e){
+   						if($(this).val().length != 0) {
+   							console.log("In if");
+     						var parameters = { search: $(this).val() };
+       						$.get( '/search',parameters, function(data) {
+       						//	console.log("Insile");
+       						//console.log(data);
+       						//$('#testing').html(data);
+       						//$('#testing').html("<br>");
+       						$('#testing').html("");
+       						$('#testing').append("<select id='dropdown'>");
+       						for(var i=0;i<data.length;i++){
+       							$("#dropdown").append(new Option(data[i], "value"));
+       							$('#dropdown').append("<br>");
+
+       						}	
+     									});
+   					 				};
+   					 if($(this).val().length == 0){
+   					 	$('#testing').html("Type a query");
+   					 };
+   					 /*console.log("In else");
+   					 var parameters = { search: $(this).val() };
+       						$.get( '/search',parameters, function(data) {
+       						$('#testing').html(data);
+     					});*/
+ 				});
+			});
+			</script>
+		</form>
+		<hr>
