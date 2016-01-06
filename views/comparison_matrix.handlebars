@@ -1,68 +1,28 @@
+<div id="first">
 Company:<br>
 <input type="text" name="typeahead" id="ajax" placeholder="Type your Query">
 <div id="testing"></div>
 
 <br>
-<select name="ratio" id="ratio" placeholder="Add a stat">
+<select name="ratio" class="ratio_class" id="ratio" placeholder="Add a stat">
+	<option value="Add a stat"> </option>
   	<option value="ratio1">ratio1</option>
  	<option value="ratio2">ratio2</option>
 	<option value="ratio3">ratio3</option>
   	<option value="ratio4">ratio4</option>
 </select><br><br>
-<button id="button">yolo</button>
-<script>
-	$(function(){
- 		$('#ajax').on('keyup', function(e){
-   		if($(this).val().length != 0) {
-   			console.log("In if");
-     		var parameters = { search: $(this).val() };
-       		$.get( '/search',parameters, function(data) {
-       				$('#testing').html("");
-       				$('#testing').append("<ul class='list_of_companies'>");
-       				for(var i=0;i<data.length;i++){
-       					console.log("I'm in for");
-       					$('#testing ul').append(
-    						$('<li>').attr('class', 'full_list').append(data[i])
-								);
-       					}
-       				$(".full_list").css("background-color", "yellow");	
-					});
-       				$( "#testing" ).on("click","li", function() {    
-       					$('#ajax').val(($(this).text()));
-       					$('#testing').html("");
-    				});
-   				};
-   				if($(this).val().length == 0){
-   					$('#testing').html("");
-   					};
-   					 /*console.log("In else");
-   					 var parameters = { search: $(this).val() };
-       						$.get( '/search',parameters, function(data) {
-       						$('#testing').html(data);
-     					});*/
- 				});
-			});
-</script>
+</div>
+<div id="first_answer">  </div>
+<button id="button">button 1</button>
+</div>
+<div id="second"></div>
 
-<script>
-	$(function(){
+<div id="second_answer"> </div>
 
-		$('#button').on('click',function(){
-			if(($('#ajax').val() == "")||($('#ratio').val()!="Add a stat")){
-				//console.log($('#ajax').text());
-				alert("Fuck off mate fill all the fields");
-			}
-			else{
-				//console.log($('#ajax').text());
-				/*var parameters={company_name:$('#ajax').val(),ratio:$('#ratio').val()};
-				$.get('/matrix_eval',parameters,function(data){
+<div id="third"> </div>
+<div id="fourth"> </div>
 
 
+<div id="third_answer"> </div>
+<script src="js/matrix.js">	</script>
 
-				})*/
-
-				console.log("Yolo good job");
-			}
-		})
-	});
-</script>

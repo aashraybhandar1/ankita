@@ -1,7 +1,9 @@
 var express=require('express'); 					//express connection
 var app=express();
 app.set('views',__dirname + '/views');
-app.use(express.static(__dirname + '/js'));
+var lampard=app.use(express.static( 'views'));
+app.use('/static', express.static('views'));
+//console.log(lampard);
 var handlebars = require('express3-handlebars').create({ defaultLayout:'main' });  //handlebars is the tempelate engine... main.handlebars in the default layout
 app.engine('handlebars', handlebars.engine);
 app.set('view engine', 'handlebars');
@@ -14,7 +16,8 @@ var connection=mysql.createConnection({
 	host:'localhost',
 	user:'root',
 	password:'bhandu',
-	database:'ankita'
+	database:'ankita',
+	multipleStatements: true
 });
 
 connection.connect(function(err){     						//if errror is connecting to databse
@@ -42,6 +45,7 @@ app.get('/', function(req, res){
 //res.send('Meadowlark Travel');
 res.render('home');
 });
+
 
 app.get('/login', function(req, res){
 //res.type('text/plain');
@@ -125,11 +129,11 @@ var query=connection.query("SELECT `company_name` FROM `company_details` WHERE `
 		}
 
 		else{
-			console.log("success");
+			//console.log("success");
 			//console.log(fields);
 			var data=[];
 			for(var i=0;i<rows.length;i++){
-			console.log(rows[i].company_name);
+			//console.log(rows[i].company_name);
 			data.push(rows[i].company_name);
 			//res.send(rows[i].company_name);
 			}
@@ -148,6 +152,38 @@ res.render('comparison_matrix');
 //console.log('In login');
 });
 
+app.get('/matrix_eval', function(req, res){
+
+var question="SELECT "+req.query.chain+" FROM `company_details` WHERE `company_name` = \'"+req.query.company_name +"\' ";
+var query=connection.query(question,function(error,rows,fields){
+		var data=[];
+
+		//console.log(query);
+		//console.log(req.query);
+		console.log(rows);
+		//console.log(rows[0][req.query.ratio]);
+		//data.push(rows[0][req.query.ratio]);
+		var i=1;
+		for( i=1;i<=req.query.size_tot;i++){
+			if(i==1){
+				data.push(rows[0][req.query.ratio]);
+				continue ;
+			}
+			var temp=("ratio"+i);
+			data.push(rows[0][req.query[temp]]);
+			
+		}
+		
+		res.send(data);
+	});
+
+		
+});
+
+app.get('/snipet',function(req,res){
+	console.log(__dirname);
+	res.sendfile('views/snipet.handlebars', {root: __dirname })
+});
 
 /*app.post('/dummy',function(req,res){
 	
